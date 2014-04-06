@@ -154,6 +154,7 @@ decover: cov
 # =========
 # Should remove all generated artifacts
 ARTIFACTS := $(OBJS) $(OBJS:=.mk) \
+	.formatted \
 	$(PROGRAMS) \
 	$(wildcard $(MODULES:=/*.testresult)) \
 	$(wildcard $(MODULES:=/*.gcda)) \

@@ -1,8 +1,8 @@
 # cache evaluation of path
 L := $(LOCAL_DIR)
 
-PROGRAMS += $(L)/hello_world
-#TESTS += $(L)/
+#PROGRAMS += $(L)/
+TESTS += $(L)/hello_world
 
 # overwrite CFLAGS per object
 #$(L)/.o : CFLAGS += ...
