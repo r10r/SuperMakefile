@@ -14,7 +14,7 @@ CFLAGS += -Weverything -Werror -Wall -pedantic \
 	-I$(PROJECT_DIR)/src \
 	-I$(LIBCX_DIR)
 
-ifeq ($(ENV),release)
+ifeq ($(profile),release)
 CFLAGS += -Os -DNDEBUG -DNTRACE
 else
 CFLAGS += -gdwarf-2 -g -O0 -fno-inline --coverage

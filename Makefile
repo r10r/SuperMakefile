@@ -29,6 +29,7 @@ TESTS :=
 $(info BASE_DIR: $(BASE_DIR))
 $(info SMAKE_DIR: $(SMAKE_DIR))
 $(info MODULES: $(MODULES))
+$(info profile: $(profile))
 OBJECT_DEPENDENCY_SCRIPT ?= $(SMAKE_DIR)/bin/depend.sh
 $(info Using dependency script: $(OBJECT_DEPENDENCY_SCRIPT))
 COVERAGE_TOOL ?= $(SMAKE_DIR)/bin/coverage.sh
