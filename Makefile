@@ -5,12 +5,12 @@ default: all
 # ============
 # Variables that might be overwritten by commandline or module.mk
 BASE_DIR := $(realpath $(PWD))
-TBM_DIR := $(BASE_DIR)
 MODULES := 
 OS := $(shell uname -s)
 
 # A macro that evaluates to the local directory path of an included Makefile.
 LOCAL_DIR = $(realpath $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST)))))
+SMAKE_DIR := $(LOCAL_DIR)
 
 # Each module may append to the following variables
 # All objects that should be generated
@@ -26,16 +26,18 @@ TESTS :=
 # include project makefile
 -include $(BASE_DIR)/project.mk
 
-$(info Using TBM dir: $(TBM_DIR))
-OBJECT_DEPENDENCY_SCRIPT ?= $(TBM_DIR)/bin/depend.sh
+$(info BASE_DIR: $(BASE_DIR))
+$(info SMAKE_DIR: $(SMAKE_DIR))
+$(info MODULES: $(MODULES))
+OBJECT_DEPENDENCY_SCRIPT ?= $(SMAKE_DIR)/bin/depend.sh
 $(info Using dependency script: $(OBJECT_DEPENDENCY_SCRIPT))
-COVERAGE_TOOL ?= $(TBM_DIR)/bin/coverage.sh
+COVERAGE_TOOL ?= $(SMAKE_DIR)/bin/coverage.sh
 $(info Using coverage script: $(COVERAGE_TOOL))
-COVERAGE_REPORT_TOOL ?= $(TBM_DIR)/bin/decover.sh
+COVERAGE_REPORT_TOOL ?= $(SMAKE_DIR)/bin/decover.sh
 $(info Using coverage report script: $(COVERAGE_REPORT_TOOL))
-TEST_RUNNER ?= $(TBM_DIR)/bin/valgrind-testrunner.sh
+TEST_RUNNER ?= $(SMAKE_DIR)/bin/valgrind-testrunner.sh
 $(info Using test runner script: $(TEST_RUNNER))
-FORMATTER_TOOL ?= $(TBM_DIR)/bin/uncrustify.sh
+FORMATTER_TOOL ?= $(SMAKE_DIR)/bin/uncrustify.sh
 $(info Using formatter script: $(FORMATTER_TOOL))
 
 # Include module makefiles module.mk.
@@ -46,7 +48,7 @@ include $(patsubst %,%/module.mk,$(MODULES))
 # look for include files in each of the modules
 # use -isystem ?
 #CFLAGS += $(patsubst %,-I%,$(MODULES))
-CFLAGS += -I$(TBM_DIR) -I$(BASE_DIR)
+CFLAGS += -I$(SMAKE_DIR) -I$(BASE_DIR)
 INCLUDES := $(filter -I%,$(CFLAGS))
 
 # [ os ]
@@ -97,7 +99,7 @@ all: format $(PROGRAMS) test decover;
 build: format $(PROGRAMS);
 
 # make these available to shell scripts
-export TBM_DIR
+export SMAKE_DIR
 export BASE_DIR
 
 # [ format ]

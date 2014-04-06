@@ -1,7 +1,5 @@
 PROJECT_DIR := $(LOCAL_DIR)
-LIBCX_DIR := $(PROJECT_DIR)/libcx
-
-MODULES := src
+MODULES := hello_world
 
 CC := clang
 
@@ -30,6 +28,6 @@ CFLAGS += -Wno-error=unused-parameter \
 	-Wno-error=cast-align \
 	-Wno-error=incompatible-pointer-types-discards-qualifiers
 	
-# some libraries (e.g libcurl) use recursive macro expansion
-# as well as the stdout/stdin/stderr macros on linux
-CFLAGS += -Wno-error=disabled-macro-expansion
+# curl uses recursive macro expansion magic to match parameters
+# linux declares stdout/stdin/stderr recursive
+CFLAGS += -Wno-error=disabled-macro-expansion  

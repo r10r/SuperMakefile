@@ -1,0 +1,12 @@
+# append to ~/.gitignore
+# `git config core.excludesfile = ~/.gitignore`
+# Makefile - generated artifacts
+
+*.gcda
+*.gcno
+*.cov
+*.testresult
+*~
+*.o
+*.o.mk
+.formatted
