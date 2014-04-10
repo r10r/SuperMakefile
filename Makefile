@@ -154,17 +154,17 @@ decover: cov
 # [ clean ]
 # =========
 # Should remove all generated artifacts
-ARTIFACTS := $(OBJS) $(OBJS:=.mk) \
-	.formatted \
-	$(PROGRAMS) \
+ARTIFACTS := $(PROGRAMS) \
+	$(wildcard .formatted) \
 	$(wildcard $(MODULES:=/*.testresult)) \
 	$(wildcard $(MODULES:=/*.gcda)) \
 	$(wildcard $(MODULES:=/*.gcno)) \
 	$(wildcard $(MODULES:=/*.o.mk)) \
-	$(wildcard $(MODULES:=/*.cov)) \
-	$(OBJS:.o=.gcda) $(OBJS:.o=.gcno)
-	
-clean: 
+	$(wildcard $(MODULES:=/*.o)) \
+	$(wildcard $(MODULES:=/*.cov))
+
+.PHONY: clean
+clean:
 	rm -f $(ARTIFACTS)
 
 
