@@ -42,9 +42,9 @@ FORMATTER_TOOL ?= $(SMAKE_DIR)/bin/uncrustify.sh
 $(info Using formatter script: $(FORMATTER_TOOL))
 
 # Include module makefiles module.mk.
-# FIXME running 'clean' triggers module makefile creation
-include $(patsubst %,%/module.mk,$(MODULES))
-
+ifneq ($(MAKECMDGOALS),clean)
+   include $(patsubst %,%/module.mk,$(MODULES))
+endif
 
 # look for include files in each of the modules
 # use -isystem ?
@@ -162,11 +162,10 @@ ARTIFACTS := $(OBJS) $(OBJS:=.mk) \
 	$(wildcard $(MODULES:=/*.gcno)) \
 	$(wildcard $(MODULES:=/*.o.mk)) \
 	$(wildcard $(MODULES:=/*.cov)) \
-	$(OBJS:.o=.gcda) $(OBJS:.o=.gcno) \
-	$(LCOV_DIR) $(LCOV_INFO_FILE)
+	$(OBJS:.o=.gcda) $(OBJS:.o=.gcno)
 	
 clean: 
-	rm -rf $(ARTIFACTS)
+	rm -f $(ARTIFACTS)
 
 
 # [ ragel ]
