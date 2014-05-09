@@ -7,6 +7,7 @@ default: all
 BASE_DIR := $(realpath $(PWD))
 MODULES := 
 OS := $(shell uname -s)
+ARCH :=$(shell uname -m)
 
 # A macro that evaluates to the local directory path of an included Makefile.
 LOCAL_DIR = $(realpath $(patsubst %/,%,$(dir $(lastword $(MAKEFILE_LIST)))))
@@ -97,7 +98,7 @@ OBJS := $(sort $(OBJS))
 SRC := $(sort $(SRC))
 
 all: format $(PROGRAMS) test decover;
-build: format $(PROGRAMS);
+build: $(PROGRAMS);
 
 # make these available to shell scripts
 export SMAKE_DIR
