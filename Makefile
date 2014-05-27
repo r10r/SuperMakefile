@@ -44,7 +44,9 @@ $(info Using formatter script: $(FORMATTER_TOOL))
 
 # Include module makefiles module.mk.
 ifneq ($(MAKECMDGOALS),clean)
+ifneq ($(MAKECMDGOALS),realclean)
    include $(patsubst %,%/module.mk,$(MODULES))
+endif
 endif
 
 # look for include files in each of the modules
@@ -155,18 +157,22 @@ decover: cov
 # [ clean ]
 # =========
 # Should remove all generated artifacts
-ARTIFACTS := $(PROGRAMS) \
-	$(wildcard .formatted) \
+BUILD_ARTIFACTS := $(PROGRAMS) \
+	$(wildcard $(MODULES:=/*.o)) \
 	$(wildcard $(MODULES:=/*.testresult)) \
 	$(wildcard $(MODULES:=/*.gcda)) \
 	$(wildcard $(MODULES:=/*.gcno)) \
-	$(wildcard $(MODULES:=/*.o.mk)) \
-	$(wildcard $(MODULES:=/*.o)) \
 	$(wildcard $(MODULES:=/*.cov))
+
+ARTIFACTS := $(wildcard .formatted) \
+	$(wildcard $(MODULES:=/*.o.mk))
 
 .PHONY: clean
 clean:
-	rm -f $(ARTIFACTS)
+	rm -f $(BUILD_ARTIFACTS)
+	
+realclean:
+	rm -f $(BUILD_ARTIFACTS) $(ARTIFACTS)
 
 
 # [ ragel ]
