@@ -75,7 +75,7 @@ endif
 define PROGRAM_template
 $(1): $$($(1)_OBJS) $(1).c
 	$$(CC) $$(CFLAGS) $$(LDFLAGS) $$($(1)_FLAGS) \
-	-o $(1) $$($(1)_OBJS)
+	-o $(1) $$($(1)_OBJS) $$($(1)_LIBS)
 
 OBJS += $$($(1)_OBJS)
 endef
@@ -162,7 +162,9 @@ BUILD_ARTIFACTS := $(PROGRAMS) \
 	$(wildcard $(MODULES:=/*.testresult)) \
 	$(wildcard $(MODULES:=/*.gcda)) \
 	$(wildcard $(MODULES:=/*.gcno)) \
-	$(wildcard $(MODULES:=/*.cov))
+	$(wildcard $(MODULES:=/*.cov)) \
+	$(wildcard $(MODULES:=/*.unc-backup~)) \
+	$(wildcard $(MODULES:=/*.unc-backup.md5~)) \
 
 ARTIFACTS := $(wildcard .formatted) \
 	$(wildcard $(MODULES:=/*.o.mk))
@@ -194,3 +196,6 @@ realclean:
 	
 # Optionally append new rules or overwrite existing ones.
 -include Rules.mk
+
+# Filter out unsupported CFLAGS per platform/compiler
+CFLAGS := $(filter-out $(CFLAGS_UNSUPPORTED),$(CFLAGS))
