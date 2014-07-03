@@ -6,10 +6,10 @@
 # see http://unix.stackexchange.com/questions/14270/get-exit-status-of-process-thats-piped-to-another/73180#73180
 # see http://www.tldp.org/LDP/abs/html/internalvariables.html
 
-TEST_BIN=$1
+TEST_BIN=$@
 TESTRESULT_FILE=${TEST_BIN}.testresult
 
-${TEST_BIN} 2>&1 | tee >(grep -v ^__MEMDBG > /dev/stderr) | grep __MEMDBG | mleaks
+${TEST_BIN} 2>&1 | tee >(cat > /dev/stderr) | grep --line-buffered __MEMDBG | mleaks
 
 # use PIPESTATUS (bash specific) to capture the status of each command in the pipe.
 # $PIPESTATUS is a "volatile" variable and needs to be captured immediately.
