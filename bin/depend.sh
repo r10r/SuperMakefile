@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 readonly OBJ_DIR=`dirname $1`
 shift 1
 
